@@ -1,0 +1,71 @@
+<!--
+<div id="login-container">
+    <div id="logo">
+        <sup><span class="glyphicon glyphicon-cloud"></span></sup>
+    </div>
+    <div id="login">
+        <h3>Welcome to <span>Cloud Inventory</span></h3>
+        <h5>Please sign in to get access.</h5>
+        <form id="login-form" name="form" class="form" novalidate>
+            <div class="form-group">
+                <label for="login-userid">User ID</label>
+                <input type="text" class="form-control" ng-model="user.name"
+                placeholder="User ID" required />
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" class="form-control" ng-model="user.password"
+                placeholder="Password" required />
+            </div>
+            <div class="form-group">
+                <div ng-show="loginError" class="alert alert-danger">
+                    <strong>{{loginErrorMessage}}</strong>
+                </div>
+            </div>
+            <div class="form-group">
+                <button ng-click="login(user)" ng-disabled="form.$invalid" class="btn btn-success btn-block">
+                    Login
+                </button>
+            </div>
+        </form>
+        <a href="index.html">Forgot Password?</a>
+    </div>
+</div>
+-->
+
+<form id="login-form" name="form" class="form" novalidate>
+<div id="login" class="container">
+	<div class="row logo">
+		<div class="col-xs-12 center">
+			<img src="images/logo/login-logo.png" height="55" alt="Logo" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 center">
+			<input type="text" class="form-control" ng-model="user.name"
+				   placeholder="User ID" required />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 center">
+			<input type="password" class="form-control" ng-model="user.password"
+				   placeholder="Password" required />
+		</div>
+	</div>
+	<div class="row" ng-show="loginError">
+		<div class="col-xs-12 center">
+			<div class="alert alert-danger">
+				<strong>{{loginErrorMessage}}</strong>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 center">
+			<button ng-click="login(user)" ng-disabled="form.$invalid"
+					class="btn btn-large btn-block btn-primary">
+				Login
+			</button>
+		</div>
+	</div>
+</div>
+</form>

@@ -1,0 +1,349 @@
+/* Space out content a bit */
+body {
+    font: normal 15px 'Lucida Sans', arial, sans-serif;
+    line-height: 18px;
+    /*background: url(../images/linen-black.jpg) repeat;*/
+	background:#02213C;
+}
+
+/* Toggle input type */
+.input-group-btn:last-child>.btn {
+	margin-top: 0;
+}
+
+/* Custom OLC Table Formatting */
+.right {
+	text-align:right;
+}
+
+.left {
+	text-align:left;
+}
+
+.center {
+	text-align:center;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+.italic {
+	font-style:italic;
+}
+
+.green {
+	background-color: green;
+}
+
+.yellow {
+	background-color: yellow;
+}
+
+.red {
+	background-color: red;
+}
+
+.uppercase {
+	text-transform:uppercase;
+}
+
+/* overlay styles, all needed */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.loading span {
+    display: inline-block;
+    vertical-align: middle;
+    width: .6em;
+    height: .6em;
+    margin: .2em;
+    background: #007DB6;
+    border-radius: .6em;
+    -webkit-animation: loading 1s infinite alternate;
+}
+.loading span:nth-of-type(2) {
+    background: #008FB2;
+    -webkit-animation-delay: 0.2s;
+}
+.loading span:nth-of-type(3) {
+    background: #009B9E;
+    -webkit-animation-delay: 0.4s;
+}
+.loading span:nth-of-type(4) {
+    background: #00A77D;
+    -webkit-animation-delay: 0.6s;
+}
+.loading span:nth-of-type(5) {
+    background: #00B247;
+    -webkit-animation-delay: 0.8s;
+}
+.loading span:nth-of-type(6) {
+    background: #5AB027;
+    -webkit-animation-delay: 1.0s;
+}
+.loading span:nth-of-type(7) {
+    background: #A0B61E;
+    -webkit-animation-delay: 1.2s;
+}
+@-webkit-keyframes loading {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* just some content with arbitrary styles for explanation purposes */
+.loading {
+    width: 300px;
+    height: 200px;
+    line-height: 200px;
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -150px;
+    border-radius: 5px;
+    text-align: center;
+    background:#fff;
+    z-index: 11; /* 1px higher than the overlay layer */
+}
+
+
+.table>thead>tr>th {
+	border-bottom: 0;
+}
+
+.navbar-back {
+float: left;
+padding: 15px 15px;
+font-size: 18px;
+color:#ffffff;
+line-height: 20px;
+}
+
+.navbar-nav>li>a {
+margin-left: 15px;
+}
+
+a:hover.navbar-back  {
+color:#ffffff!important;
+text-decoration:none;
+}
+
+.title-bar {
+padding: 5px 15px 5px;
+color: #ffffff;
+font-size: 16px;
+line-height: 20px;
+height: 30px;
+}
+
+.sub-container {
+	background:#ffffff;
+	padding: 5px 10px;
+	font-size:14px;
+}
+
+.form-container {
+	background:#ffffff;
+	padding: 5px 0px;
+	font-size:14px;
+}
+
+.btn-row {
+  margin-left:15px;
+  /*margin-right:5px;*/
+  /*display: block;*/
+}
+
+.btn-primary {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #006dcc;
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#08c),to(#04c));
+    background-image: -webkit-linear-gradient(top,#08c,#04c);
+    background-image: -o-linear-gradient(top,#08c,#04c);
+    background-image: linear-gradient(to bottom,#08c,#04c);
+    background-image: -moz-linear-gradient(top,#08c,#04c);
+    background-repeat: repeat-x;
+    border-color: #04c #04c #002a80;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
+    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    color: #fff;
+    background-color: #04c;
+}
+
+.center {
+    text-align: center;
+}
+
+#login .row.logo {
+    padding-top: 100px;
+    padding-bottom:15px;
+}
+
+#login input[type=text], #login input[type=password] {
+    width: 100%;
+    margin-bottom:10px
+}
+
+.p-btn-addon {
+    display:block;
+    padding:6px 10px;
+	font-weight:700;
+}
+
+.popover-title {
+font-weight: 700;
+color: #D2322D;
+}
+
+input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].btn-block {
+  margin-top: 10px
+}
+
+
+/*
+.open>.dropdown-menu {
+margin-left: -185px;
+}
+*/
+
+label {
+display: inline;
+}
+
+.readonly {
+    font-style:italic;
+    padding-bottom:10px;
+}
+.data {
+    margin:0px auto;
+    text-align:left;
+}
+.dropdown-menu {
+    text-align:left;
+}
+
+.alert {
+    margin-bottom: 10px;
+}
+
+.modal.fade.in {
+    text-align: left;
+}
+.btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover {
+    font-size: 14px;
+    margin-left: -120px;
+}
+
+.table {
+border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+    background-color: #F9F9F9;
+}
+
+.rowSelected {
+background-color: #D9EDF7!important;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  font-size: 12px;
+}
+
+/* Animations*/
+.slide{
+  right:0;
+}
+.slide.ng-enter{
+    transition:0.20s linear all;
+    position:fixed;
+    z-index:inherit;
+    right:-100%;
+    height:inherit;
+}
+/*
+.slide.ng-leave{
+    transition:0.20s linear all;
+    position:fixed;
+    z-index:9999;
+    left:0;
+}
+.slide.ng-leave-active{
+    transition:0.20s linear all;
+    position:fixed;
+    left:-100%;
+    right:100%;
+}
+*/
+.slide.ng-enter-active{
+    transition:0.20s linear all;
+    right:0;
+    position:relative;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
