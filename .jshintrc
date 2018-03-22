@@ -4,11 +4,14 @@
   "esnext": true,
   "bitwise": true,
   "camelcase": false,
-  "curly": true,
+  "curly": false,
   "eqeqeq": true,
+  "eqnull": true,
+  "expr": true,
   "immed": true,
   "indent": false,
   "latedef": true,
+  "loopfunc": true,
   "newcap": true,
   "noarg": true,
   "quotmark": false,
@@ -18,7 +21,9 @@
   "strict": true,
   "trailing": false,
   "smarttabs": true,
+  "sub": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "$": false
   }
 }

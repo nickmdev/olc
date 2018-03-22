@@ -14,7 +14,7 @@ var YesNoCtrl = ['$scope', '$sce', '$modalInstance', 'message', function ($scope
 	$scope.yes = function () {
         $modalInstance.close('yes');
     };
-	
+
 	$scope.no = function () {
         $modalInstance.close('no');
     };
@@ -23,9 +23,9 @@ var YesNoCtrl = ['$scope', '$sce', '$modalInstance', 'message', function ($scope
 angular.module('olcApp')
   .controller('FormCtrl', ['$scope', '$route', '$location', '$sce', '$interval', '$modal', 'Service', 'Global',
 	function ($scope, $route, $location, $sce, $interval, $modal, Service, Global) {
-    
+
 	$scope.isLoading = true;
-	
+
 	// datetime var
 	var timerRefresh;
 	var timerInit;
@@ -33,16 +33,16 @@ angular.module('olcApp')
 	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	$scope.dateTime;
 	$scope.dateIndex;
-	$scope.timeIndex;		
+	$scope.timeIndex;
 	$scope.dateAlphaIndex;
-	$scope.timeAlphaIndex;	
-	
+	$scope.timeAlphaIndex;
+
 	$scope.childFormActive = Global.get('childFormActive');
 	$scope.formTitle = Global.get(($scope.childFormActive === true) ? 'childFormName' : 'formName');
     $scope.form_data = '';
 	$scope.messageCollapsed = true;
 	$scope.rowSelected = null;
-	
+
 	var formError = false;
 
     $scope.init = function() {
@@ -75,11 +75,11 @@ angular.module('olcApp')
 			);
 		}
     };
-	
+
 	$scope.buildTableHeaders = function(obj) {
 		//console.log('Obj to add to: ' + angular.toJson(obj));
 		//obj.tableHeaders = ['Stock Area','Bin','S/N - Lot','Quantity on Hand'];
-		
+
         Service.call(
             'get_table_headings',
             {
@@ -93,10 +93,10 @@ angular.module('olcApp')
 				console.log('Table Headings Response: ', angular.toJson(response));
 				$scope.applyDefaults();
             }
-        );			
-		
+        );
+
 	};
-	
+
 	$scope.onFocus = function() {
 		console.log('Special Focus Event');
 		var obj = {};
@@ -127,9 +127,9 @@ angular.module('olcApp')
 					}
 				);
 			}
-		}	
+		}
 	};
-	
+
 	$scope.buildTableData = function(obj) {
 		/*
 		obj.tableData = [];
@@ -152,10 +152,10 @@ angular.module('olcApp')
                 var response = r;
 				console.log('Table content Response: ', angular.toJson(response));
             }
-        );			
-		
-	};	
-	
+        );
+
+	};
+
 	$scope.selectTableRow = function(id, obj) {
 		//console.log('Row selected: ' + id);
 		$scope.rowSelected = id;
@@ -163,11 +163,11 @@ angular.module('olcApp')
 		obj.check_fields = (obj.check_fields == null) ? obj.name : obj.check_fields;
 		$scope.btnCall(obj, false);
 	};
-	
+
 	$scope.isDisabled = function(value) {
 		return (value === 'Y') ? true : false;
 	};
-	
+
 	$scope.customFormBuild = function() {
 		var lookupList=[],
 			applyDefaults = false;
@@ -183,7 +183,7 @@ angular.module('olcApp')
 				applyDefaults = true;
 				$scope.buildTableHeaders(obj);
 			}
-			
+
 			// element type to call server and refresh date/time
 			if (obj.element_type.indexOf('timer') !== -1 ) {
 				if ( angular.isDefined(timerInit) ) return;
@@ -203,7 +203,7 @@ angular.module('olcApp')
 					}
 				}
 				getServerDatetime();
-				
+
 				if ( angular.isDefined(timerRefresh) ) return;
 				timerRefresh = $interval(function() {
 					if(tickerCount === 11) {
@@ -212,14 +212,14 @@ angular.module('olcApp')
 						$scope.dateTime.setSeconds($scope.dateTime.getSeconds() + 5);
 						formatDates();
 					}
-					
+
 					if(tickerCount === 11) { tickerCount = 0; }
 					tickerCount += 1;
 					//console.log(tickerCount);
 
 				}, 5000);
 			}
-			
+
 		});
 
 
@@ -243,13 +243,13 @@ angular.module('olcApp')
 					$scope.applyDefaults();
 				}
 			);
-		} 
-		
+		}
+
 		if (applyDefaults === false) {
 			$scope.applyDefaults();
-		}	
+		}
 	};
-	
+
 	function getServerDatetime() {
 		Service.call(
 			'getdatetime',
@@ -261,19 +261,19 @@ angular.module('olcApp')
 				var response = r;
 				var rDate = response.set_fields[0].Date.replace(/-/g , '/');
 				var rTime = response.set_fields[0].Time;
-				$scope.dateTime = new Date(rDate + ' ' + rTime);				
+				$scope.dateTime = new Date(rDate + ' ' + rTime);
 				formatDates();
 			}
 		);
 	}
-	
+
 	function formatDates() {
 		$scope.form_data[$scope.dateIndex].value = formatDateTimer($scope.dateTime);
 		$scope.form_data[$scope.timeIndex].value = formatTimeTimer($scope.dateTime);
 		$scope.form_data[$scope.dateAlphaIndex].value = formatAlphaDate($scope.dateTime);
-		$scope.form_data[$scope.timeAlphaIndex].value = formatAlphaTime($scope.dateTime);		
+		$scope.form_data[$scope.timeAlphaIndex].value = formatAlphaTime($scope.dateTime);
 	}
-	
+
 	function formatDateTimer(date) {
 		return date.getFullYear() + '/' + pad2((date.getMonth() + 1)) + '/' + pad2(date.getDate());
 	}
@@ -295,12 +295,12 @@ angular.module('olcApp')
 		minutes = minutes < 10 ? '0' + minutes : minutes;
 		var strTime = hours + ':' + minutes + ' ' + ampm;
 		return strTime;
-	}	
-	
-	function pad2(number) {
-		return (number < 10 ? '0' : '') + number
 	}
-	
+
+	function pad2(number) {
+		return (number < 10 ? '0' : '') + number;
+	}
+
 	$scope.applyDefaults = function() {
 		console.log('Attempting Apply Defaults');
 		Service.call(
@@ -316,7 +316,7 @@ angular.module('olcApp')
             }
         );
 	};
-	
+
 	$scope.postKeyValues = function() {
 		console.log('Posting key value list: ' + Global.get('childCommands'));
 		Service.call(
@@ -333,14 +333,14 @@ angular.module('olcApp')
             }
         );
 	};
-	
+
 	$scope.blurCall = function (obj) {
 		if (obj.fire_change === 'Y') {
 			Global.set('blurStatus', 'on');
 			Global.set('blurObject', obj);
 		}
     };
-	
+
 	$scope.buildCheckFields = function(fields_array) {
 		var values = [];
 		var i;
@@ -348,7 +348,7 @@ angular.module('olcApp')
 		for(i=0;i<that.length;i+=1){
 			angular.forEach($scope.form_data, function(obj){
 				 if (that[i] === obj.name) {
-					
+
 					switch(obj.element_type)
 					{
 						case 'table':
@@ -360,15 +360,15 @@ angular.module('olcApp')
 								values.push([ cell.name, cell.value ]);
 							});
 						break;
-						
+
 						default:
 							values.push([ obj.name, obj.value ]);
 						break;
-					
+
 					}
-					
+
 				 }
-			});				
+			});
 		}
 		return values;
 	};
@@ -377,12 +377,12 @@ angular.module('olcApp')
 		var audioFile = new Audio("../sounds/" + file);
         audioFile.play();
 	};
-	
+
 	$scope.updateForm = function(response) {
 		var i,
 			updateFieldsArray = response.set_fields,
 			commandArray = (response.client_commands != null) ? response.client_commands : [];
-		
+
 		// set updated field/values
 		for(i=0;i<updateFieldsArray.length;i+=1){
 			for (var propName in updateFieldsArray[i]) {
@@ -390,10 +390,10 @@ angular.module('olcApp')
 					 if (propName === obj.name) {
 						obj.value = updateFieldsArray[i][propName];
 					 }
-				});							
+				});
 			}
-		}		
-		
+		}
+
 		console.log('Client Commands: ' + commandArray);
 		// run client commands
 		if (commandArray.length > 0) {
@@ -407,21 +407,21 @@ angular.module('olcApp')
 							console.log('Should be setting: ' + commandArray[i][1] + ' property: ' + commandArray[i][2] + ' to ' + commandArray[i][3]);
 							obj[commandArray[i][2]] = commandArray[i][3];
 						}
-					});					
+					});
 					break;
 				case 'refresh_heading':
 					angular.forEach($scope.form_data, function(obj){
 						if (commandArray[i][1] === obj.name) {
 							obj.tableHeaders = commandArray[i][3];
 						}
-					});	
+					});
 					break;
 				case 'refresh_table':
 					angular.forEach($scope.form_data, function(obj){
 						if (commandArray[i][1] === obj.name) {
 							obj.tableData = commandArray[i][3];
 						}
-					});	
+					});
 					break;
 				case 'open_popup_form':
 					console.log('Open Modal Form: ' + angular.toJson(commandArray[i]));
@@ -450,28 +450,28 @@ angular.module('olcApp')
 					$scope.playAudio(commandArray[i][1]);
 					break;
 				case 'back':
-					$location.path('/menu');					
+					$location.path('/menu');
 					break;
 				case 'need_login':
-					$location.path('/main');					
-					break;					
-				case 'temp_message':		
+					$location.path('/main');
+					break;
+				case 'temp_message':
 				case 'modal_message':
 				case 'yesno_message':
 					$scope.buildMessage(commandArray[i]);
-					break;								
+					break;
 				case 'apply_defaults':
 					$scope.clearFields();
 					$scope.applyDefaults();
-					break;				
-				}					
-			}	
+					break;
+				}
+			}
 		}
-		
+
 		if (response.error_code === 1 && formError === false) {
 			formError = true;
 			$scope.errorPopover(response.focus_field, response.error_msg);
-		} 
+		}
 		else {
 			formError = false;
 			Global.set('errorField', '');
@@ -483,17 +483,17 @@ angular.module('olcApp')
 					console.log('Setting focus on ' + obj.name);
 					obj.has_focus = true;
 				}
-			});		
-		
-		console.log('FOCUS: ' + $scope.focusCheck());			
+			});
+
+		console.log('FOCUS: ' + $scope.focusCheck());
 		}
-		
+
 		$scope.isLoading = false;
 	};
-	
+
 	$scope.buildAllFieldValues = function() {
 		var values = [];
-		
+
 		angular.forEach($scope.form_data, function(obj){
 			switch(obj.element_type)
 			{
@@ -506,7 +506,7 @@ angular.module('olcApp')
 						values.push([ cell.name, cell.value ]);
 					});
 				break;
-				
+
 				default:
 					// skip button element types
 					if(obj.element_type !== 'button') {
@@ -518,7 +518,7 @@ angular.module('olcApp')
 		});
 		return values;
 	};
-	
+
 	$scope.btnCall = function(obj, showLoad) {
 		if(showLoad !== false) {
 			$scope.isLoading = true;
@@ -531,7 +531,7 @@ angular.module('olcApp')
 		}
 
 		console.log('Sending to server: ' + fieldsArray);
-		
+
 		Service.call(
 			'click',
 			{
@@ -545,9 +545,9 @@ angular.module('olcApp')
 				console.log('Click Response: ', angular.toJson(response));
 				$scope.updateForm(response);
 			}
-		);		
+		);
 	};
-	
+
 	$scope.zoomCall = function(obj, showLoad) {
 		if(showLoad !== false) {
 			$scope.isLoading = true;
@@ -560,7 +560,7 @@ angular.module('olcApp')
 		}
 
 		console.log('Zoom - Sending to server: ' + fieldsArray);
-		
+
 		Service.call(
 			'on_zoom',
 			{
@@ -577,21 +577,21 @@ angular.module('olcApp')
 				console.log('Zoom Response: ', angular.toJson(response));
 				$scope.updateForm(response);
 			}
-		);		
+		);
 	};
-	
+
 	$scope.testCall = function() {
 
 		Global.set('childFormActive', false);
 		Global.set('reloadParent', true);
 		$route.reload();
-		
+
 		/*
 		var fieldsArray = [];
 			fieldsArray = $scope.buildAllFieldValues();
-			
+
 		console.log('Test Sending to server: ' + fieldsArray);
-		
+
 		Service.call(
 			'click',
 			{
@@ -606,9 +606,9 @@ angular.module('olcApp')
 				$scope.updateForm(response);
 			}
 		);
-		*/		
+		*/
 	};
-	
+
 	$scope.submit = function() {
 		var fieldsArray = $scope.buildAllFieldValues();
         Service.call(
@@ -627,29 +627,29 @@ angular.module('olcApp')
 					$scope.showSuccess(response.error_msg);
 				}
             }
-        );		
+        );
 	};
-	
+
 	$scope.reset = function() {
 		$scope.clearFields();
 		// set values back to default values
 		angular.forEach($scope.form_data, function(obj){
 			obj.value = obj.default_value;
-		});		
+		});
 		$scope.applyDefaults();
 	};
-	
-	
+
+
 	$scope.catFeature = function (index,code) {
 		$scope.form_data[index].value = code;
-	};	
-	
+	};
+
 	$scope.message = {
 		header: '',
 		content: '',
 		type: ''
 	};
-			
+
 	$scope.errorPopover = function(focusField,message) {
 		angular.forEach($scope.form_data, function(obj){
 			obj.has_focus = false;
@@ -661,10 +661,10 @@ angular.module('olcApp')
 				Global.set('errorField', focusField);
 			}
 		});
-		
+
 		console.log('FOCUS: ' + $scope.focusCheck());
 	};
-		
+
 	$scope.focusCheck = function() {
 		var name;
 		angular.forEach($scope.form_data, function(obj){
@@ -674,7 +674,7 @@ angular.module('olcApp')
 		});
 		return name;
 	};
-		
+
 	$scope.clearFields = function() {
 		angular.forEach($scope.form_data, function(obj){
 			obj.value = '';
@@ -683,13 +683,13 @@ angular.module('olcApp')
 		});
 		console.log('Cleared All Fields');
 	};
-		
+
 	$scope.clear_errors = function() {
 		angular.forEach($scope.form_data, function(obj){
 			obj.has_error = '';
 		});
 	};
-	
+
 	$scope.buildMessage = function(message) {
 		// modal or temp message?
 		switch(message[0])
@@ -701,14 +701,14 @@ angular.module('olcApp')
 		case 'modal_message':
 			console.log('Modal Message: ' + message);
 			$scope.modalMessage(message);
-			break;			
+			break;
 		case 'yesno_message':
 			console.log('Yes/No Message: ' + message);
 			$scope.modalYesNo(message);
-			break;			
+			break;
 		}
 	};
-		
+
 	$scope.tempMessage = function(message) {
 		$scope.tempMessageText = message[1];
 		window.scrollTo(0,0);
@@ -722,14 +722,14 @@ angular.module('olcApp')
 			$scope.$apply();
 		}, parseInt(message[2])*1000);
 	};
-	
+
 	$scope.stopServerTimer = function() {
 		if (angular.isDefined(timerRefresh)) {
 			$interval.cancel(timerRefresh);
 			timerRefresh = undefined;
 		}
-	};	
-	
+	};
+
 	$scope.$on('$destroy', function() {
 		// Make sure that the interval is destroyed too
 		$scope.stopServerTimer();
@@ -759,7 +759,7 @@ angular.module('olcApp')
 
 		});
 	};
-	
+
 	$scope.modalYesNo = function (message) {
 		$scope.message = message[1];
 		var template =  '<div class="modal-body">' +
@@ -801,7 +801,7 @@ angular.module('olcApp')
 
 		});
 	};
-		
+
 	$scope.errorModal = function (message) {
 		$scope.message.header = "Error!";
 		$scope.body = $sce.trustAsHtml(message);
@@ -819,6 +819,6 @@ angular.module('olcApp')
 		}, function () {
 
 		});
-	};		
-	
+	};
+
   }]);

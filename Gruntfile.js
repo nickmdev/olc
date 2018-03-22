@@ -140,7 +140,7 @@ module.exports = function (grunt) {
         }]
       }
     },
-	
+
 	// Remove unused CSS across multiple files
 	uncss: {
 	  dist: {
@@ -152,7 +152,7 @@ module.exports = function (grunt) {
         ignore: ['.pull-right', '.pull-left', '.collapse']
 	  }
 	},
-	
+
     // Automatically inject Bower components into the app
     'bower-install': {
       app: {
@@ -160,7 +160,7 @@ module.exports = function (grunt) {
         ignorePath: '<%= yeoman.app %>/'
       }
     },
-	
+
     // Renames files for browser caching purposes
     rev: {
       dist: {
@@ -384,7 +384,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'newer:jshint',
-    'test',
     'build'
   ]);
 };
