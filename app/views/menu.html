@@ -1,0 +1,38 @@
+<section ng-if="isLoading">
+	<div class="overlay"></div>
+	<div class="loading">   
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	</div>
+</section>
+
+<section>
+	<div class="title-bar">
+		Main Menu
+	</div>
+</section>
+
+<section ng-init="init()">
+	<div class="sub-container">
+		<div ng-repeat="fields in menu_data" ng-switch on="fields.element_type">
+			<div class="row-fluid controls" ng-switch-when="button">
+				<input id="{{fields.name}}" class="btn btn-default btn-block"
+					   type="button" ng-model="fields.value"
+					   id="{{fields.id}}}" value="{{fields.text.trim()}}"
+					   ng-click="loadForm(fields)">
+			</div>
+		</div>
+		<div class="row-fluid controls">
+			<button type="button" class="btn btn-primary btn-block" 
+				style="margin-top: 10px; margin-bottom: 10px" ng-click="logout()">
+				<span class="glyphicon glyphicon-log-out"></span> Logout
+			</button>
+		</div>
+	</div>
+</section>
+

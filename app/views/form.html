@@ -1,0 +1,241 @@
+<section ng-if="isLoading">
+	<div class="overlay"></div>
+	<div class="loading">   
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	 <span></span>
+	</div>
+</section>
+
+<section>
+	<div class="title-bar">
+		{{formTitle}}
+	</div>
+</section>
+
+<section ng-init="init()">
+	
+	<div class="form-container">
+	<div collapse="messageCollapsed">
+		<div class="alert alert-success">{{tempMessageText}}</div>
+	</div>
+	
+	<form role="form" style="background:#ffffff">
+		<div bindonce ng-repeat="fields in form_data" class="form-group col-xs-{{fields.size}}" 
+		bo-switch="fields.element_type" ng-if="fields.hidden == 'N'">
+		<span bo-switch-when="text">
+			<label>{{ fields.text }}</label>
+			<input bo-id="fields.name" class="form-control {{fields.class}}"
+				   type="text" ng-model="fields.value" focus-clear 
+				   popover-title="Error" popover="{{fields.has_error}}" uppercase="{{fields.upshift_field}}" 
+					 popover-trigger="focus"
+				   ng-disabled="isDisabled(fields.disabled)" ng-blur="blurCall(fields)"
+				   has-focus="fields.has_focus" ng-focus="onFocus()">
+		</span>
+		<span bo-switch-when="lookup">
+			<label>{{ fields.text }}</label>
+			<input bo-id="fields.name" class="form-control {{fields.class}}" type="text"
+				   typeahead-template-url="autocomplete.html"
+				   typeahead="suggestion as suggestion.id + ' - ' + suggestion.desc for suggestion in lookup | filter:$viewValue"
+				   ng-model="fields.value" ng-blur="blurCall(fields)"
+				   has-focus="fields.has_focus" ng-focus="onFocus()" />
+		</span>
+		<span bo-switch-when="select">
+			<label>{{ fields.text }}</label>
+			<span class="input-group">
+				<input bo-id="fields.name" class="form-control {{fields.class}}"
+					   style="margin-bottom:5px" type="text" ng-model="fields.value"
+					   popover-title="Error" popover="{{fields.has_error}}" popover-trigger="focus"
+					   ng-blur="blurCall(fields)" has-focus="fields.has_focus" ng-focus="onFocus()">
+				<span class="input-group-btn">
+					<button class="btn btn-default dropdown-toggle" tabindex="-1" 
+							data-toggle="dropdown" type="button">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li bindonce ng-repeat="obj in fields.categories">
+							<a href="" ng-click="catFeature($parent.$index,obj.code)">{{obj.text}}</a>
+						</li>
+					</ul>							
+				</span>
+			</span>
+		</span>
+		<div bo-switch-when="table">
+			<label>{{ fields.text }}</label>
+			<div class="table-responsive">
+				<table bo-id="fields.name" class="table">
+				  <thead>
+					  <tr bindonce ng-repeat="row in fields.tableHeaders">
+						<th bindonce ng-repeat="cell in row track by $index" class="{{cell.class}}" bo-bind="cell.value"></th>
+					  </tr>
+					</thead>
+					<tbody>
+						<tr bindonce ng-repeat="row in fields.tableData track by $index" 
+							ng-click="selectTableRow($index, fields)">
+							<td bindonce ng-repeat="cell in row track by $index" 
+								ng-class="{{$parent.$index}} == rowSelected ? 'rowSelected ' + '{{cell.class}}' : '{{cell.class}}'" 
+								bo-bind="cell.value">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<span bo-switch-when="zoom">
+			<label>{{ fields.text }}</label>
+			<span class="input-group">
+				<input bo-id="fields.name" class="form-control {{fields.class}}" 
+						type="text" ng-model="fields.value"
+					   popover-title="Error" popover="{{fields.has_error}}" popover-trigger="focus"
+					   ng-blur="blurCall(fields)" ng-disabled="isDisabled(fields.disabled)" has-focus="fields.has_focus" ng-focus="onFocus()">
+				<span class="input-group-btn">
+					<button class="btn btn-default" ng-disabled="isDisabled(fields.disabled)" style="border-radius: 0" 
+						tabindex="-1" type="button" ng-click="zoomCall(fields, false)">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</span>
+		</span>		
+		<span bo-switch-when="dropdown">
+			<label>{{ fields.text }}</label>
+			<span class="input-group">
+				<input bo-id="fields.name" class="form-control {{fields.class}}"
+					   style="margin-bottom:5px" type="text" ng-model="fields.value"
+					   popover-title="Error" popover="{{fields.has_error}}" popover-trigger="focus" ng-disabled="isDisabled(fields.disabled)"
+					   ng-blur="blurCall(fields)" has-focus="fields.has_focus" ng-focus="onFocus()">
+				<span class="input-group-btn">
+					<li class="dropdown" style="list-style-type: none">
+					<button class="btn btn-default dropdown-toggle" ng-disabled="isDisabled(fields.disabled)" style="margin-top: -5px;border-radius: 0" 
+						tabindex="-1" data-toggle="dropdown" type="button">
+						<span class="glyphicon glyphicon-chevron-down"></span>
+					</button>
+					<ul class="dropdown-menu" style="margin-left: -170px">
+						<li bindonce ng-repeat="obj in fields.categories">
+						  <a href="" ng-blur="blurCall(fields)" 
+							ng-click="catFeature($parent.$index,obj.code)">
+								{{obj.text}}
+							</a>
+						</li>
+					  </ul>
+					</li>
+				</span>
+			</span>
+		</span>
+		<span bo-switch-when="dropdownORG">
+			<label>{{ fields.text }}</label>
+			<select class="form-control {{fields.class}}" ng-model="fields.value" name="fields.text"
+					ng-options="obj.code as obj.text for obj in fields.categories"
+					ng-blur="blurCall(fields)" has-focus="fields.has_focus" ng-focus="onFocus()">
+			</select>
+		</span>
+		<span bo-switch-when="button">
+			<button type="button" class="btn btn-default btn-row {{fields.class}}" 
+			has-focus="fields.has_focus" ng-focus="onFocus()" ng-click="btnCall(fields)">
+				{{fields.text}}
+			</button>
+		</span>
+		<span bo-switch-when="toggle">
+			<label>{{ fields.text }}</label>
+			<span class="input-group">
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default {{fields.class}}" 
+					has-focus="fields.has_focus" ng-focus="onFocus()" ng-click="btnCall(fields, false)">
+						<span class="glyphicon glyphicon-{{fields.icon}}"></span>
+					</button>
+				</span>
+			</span>
+			<!--<span class="p-btn-addon">{{fields.text}}</span>-->
+		</span>
+
+		<span bo-switch-when="datetimer">
+			<label>{{ fields.text }}</label>
+			<input bo-id="fields.name" class="form-control {{fields.class}}"
+				   type="text" ng-model="fields.value" focus-clear 
+				   popover-title="Error" popover="{{fields.has_error}}" popover-trigger="focus"
+				   ng-disabled="isDisabled(fields.disabled)" ng-blur="blurCall(fields)"
+				   has-focus="fields.has_focus" ng-focus="onFocus()">
+		</span>
+		
+		<span bo-switch-when="timetimer">
+			<label>{{ fields.text }}</label>
+			<input bo-id="fields.name" class="form-control {{fields.class}}"
+				   type="text" ng-model="fields.value" focus-clear
+				   popover-title="Error" popover="{{fields.has_error}}" popover-trigger="focus"
+				   ng-disabled="isDisabled(fields.disabled)" ng-blur="blurCall(fields)"
+				   has-focus="fields.has_focus" ng-focus="onFocus()">
+		</span>
+		
+		<span bo-switch-when="datealphatimer">
+			<label>{{ fields.text }}</label>
+			<input bo-id="fields.name" class="form-control {{fields.class}}"
+				   type="text" ng-model="fields.value" focus-clear 
+				   popover-title="Error" popover="{{fields.has_error}}" popover-trigger="focus"
+				   ng-disabled="isDisabled(fields.disabled)" ng-blur="blurCall(fields)"
+				   has-focus="fields.has_focus" ng-focus="onFocus()">
+		</span>
+		
+		<span bo-switch-when="timealphatimer">
+			<label>{{ fields.text }}</label>
+			<input bo-id="fields.name" class="form-control {{fields.class}}"
+				   type="text" ng-model="fields.value" focus-clear
+				   popover-title="Error" popover="{{fields.has_error}}" popover-trigger="focus"
+				   ng-disabled="isDisabled(fields.disabled)" ng-blur="blurCall(fields)"
+				   has-focus="fields.has_focus" ng-focus="onFocus()">
+		</span>	
+		
+	</div>
+	
+	<!-- Testing Button 
+	<button type="button" class="btn btn-default btn-row" ng-click="testCall()">
+		Close Child
+	</button>
+	-->
+	
+	</form>
+	
+	</div>
+</section>
+
+<section>
+<!-- CACHE FILE: message modal -->
+<script type="text/ng-template" id="messageContent.html"/>
+	<!--
+	<div class="modal-header">
+		<h3 style="color:#E51A1A">{{ message.header }}</h3>
+	</div>
+	-->
+	<div class="modal-body">
+		<p ng-bind-html="body"></p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" ng-click="cancel()">Close</button>
+	</div>
+</script>
+
+<!-- CACHE FILE: form modal -->
+<script type="text/ng-template" id="formContent.html">
+	<div class="modal-body">
+		Child form
+	</div>
+	<div class="modal-footer">
+		<button class="btn" ng-click="cancel()">Close</button>
+	</div>
+</script>
+
+<!-- CACHE FILE: autocomplete.html -->
+<script type="text/ng-template" id="autocomplete.html"/>
+	<table>
+	<tr>
+		<td>
+			<div ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)">
+				<a>{{ match.model.id }} - {{ match.model.desc }}</a>
+			</div>
+		</td>
+	</tr>
+	</table>
+</script>
+</section>

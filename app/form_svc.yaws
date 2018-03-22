@@ -1,0 +1,39 @@
+<erl module=form_svc>
+-compile(export_all).
+-include("/var/yaws/ebin-olc/mt_session.hrl").
+-include("/var/yaws/ebin-olc/mt_rqst.hrl").
+-include("/var/yaws/ebin-olc/sess_parms.hrl").
+
+out(A) ->
+    %io:format("Into formt svcs~n", []),
+    Peer = case yaws_api:get_sslsocket(A#arg.clisock) of
+               {ok, SslSocket} ->
+                   ssl:peername(SslSocket);
+               _ ->
+                   inet:peername(A#arg.clisock)
+           end,
+
+    {ok,{IP,_}} = Peer,
+
+    % passed in from config file
+    %{"dbname",DBName} = lists:keyfind("dbname",1,A#arg.opaque),
+    
+    UDF_state = #mt_rqst{user_agent = (A#arg.headers)#headers.user_agent,
+                         ip = inet_parse:ntoa(IP),
+                         opaque = A#arg.opaque}, 
+        
+    yaws_rpc_olcinc:handler_session(A#arg{state = UDF_state},{?MODULE,handle_callback}).
+
+
+    handle_callback(State, 
+                    Request,
+                    Session) ->
+        %io:format("Default Session handed back to olc_handler= ~p~n", [_Session]),
+        io:format("Session handed to olc_handler= ~p~n", [Session]),
+        io:format("State handed to olc handler= ~p~n", [State]),
+
+        %calls olc_handle_callback after validating login and ODBC connection
+        olc_callback_handler:olc_handle_callback_w_login_ck(State,Request,Session).
+    
+        
+</erl>
